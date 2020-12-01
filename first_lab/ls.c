@@ -51,12 +51,12 @@ void print(struct dirent *ds) {
         //printf("ok\n");
     printf("%s ",buff);
     
-    printf("%i %s %s %s %li %s\n",
+    printf("%i %s %s %s %ld %s\n",
         ch_digit,
         pwd->pw_name, 
         file_group->gr_name, 
         data_buff,
-        file_info.st_size,
+        (long)file_info.st_size,
         ds->d_name);
 }
 
