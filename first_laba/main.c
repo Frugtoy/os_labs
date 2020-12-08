@@ -5,8 +5,10 @@
 
 #define child_proc 0
 
+char* line = {"________________________________________________________"};
+
 //funk list
-void get_exit_pid_ppid(){printf("\natexit has been started\n An id of the process (PID): %x\n An id of the parent process (PPID): %x\n", getpid(),getppid());}
+void get_exit_pid_ppid(){printf("\n\natexit has been started\n An id of the process (PID): %x\n An id of the parent process (PPID): %x\n%s\n",getpid(),getppid(), line);}
 
 void fork_inf(pid_t pid){
 
@@ -14,22 +16,21 @@ void fork_inf(pid_t pid){
 
     switch(pid){
         case -1: 
-            printf("it's seems we have a problem with fork on child process");
+            printf("it's seems we have a problem with fork on child process\n%s\n", line);
             break;
 
         case 0:
             printf("getting an information from child brunch\n");
-            sleep(5);
             pid_t c_pid = getpid();
             pid_t c_ppid = getppid();
-            printf("    PID: %x\n   PPID: %x\n\n", c_pid, c_ppid);
+            printf("    PID: %x\n   PPID: %x\n%s\n", c_pid, c_ppid,line);
             break;
 
         default:
-            printf("getting an information from parent brunch:\n   PID:%x\n   CPID:%x\n\n",getpid(),pid);
+            printf("\n\ngetting an information from parent brunch:\n   PID:%x\n   CPID:%x\n%s\n",getpid(),pid, line);
 
             int end_of_c_p = waitpid(pid,child_proc,0);
-            printf(" child proc with PID (%x) is dead\n", end_of_c_p);
+            printf("\n\nproc with PID (%x) is dead\n%s\n", end_of_c_p ,line);
             break;
     }
 }
