@@ -30,7 +30,7 @@ void fork_inf(pid_t pid){
             printf("\n\ngetting an information from parent brunch:\n   PID:%x\n   CPID:%x\n%s\n",getpid(),pid, line);
 
             int end_of_c_p = waitpid(pid,child_proc,0);
-            printf("\n\nproc with PID (%x) is dead\n%s\n", end_of_c_p ,line);
+            printf("\n\ninformation from brunch with PID(%x):proc with PID (%x) is dead\n%s\n",getpid(), end_of_c_p ,line);
             break;
     }
 }
@@ -39,7 +39,8 @@ int main(){
     int conclusion = atexit(get_exit_pid_ppid);
     if(conclusion){ printf("error"); }
 
-    pid_t pid =fork();
+    pid_t pid =fork();//fork
     fork_inf(pid);
+    printf("\nInformation from brunch with PID(%x)",getpid());
     return 0;
 }
