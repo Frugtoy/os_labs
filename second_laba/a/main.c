@@ -48,16 +48,15 @@ int main(){
     pipe(proc);
     pid = fork();
 
-    if(pid == child_proc){
-        
-        write_string("second laba a)",proc);
-    }
-    else {
+    if(pid == child_proc){//child
         sleep(5);
         char* str = read_string(proc);
         printf(" %s\n",str);
-    int end_of_c_p = waitpid(pid,child_proc,0);
- }
+    }
+    else {//parent
+        write_string("second laba a)",proc);
+        int end_of_c_p = waitpid(pid,child_proc,0);
+    }
 
-    return 0;
+return 0;
 }
