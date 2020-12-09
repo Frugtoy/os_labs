@@ -8,32 +8,36 @@
 #define child_proc 0
 #define dev 0
 
-void write_string(const char* string , FILE* file);
-void read_string (FILE* file);
+void write_string(const char* string , int *fd);
+char* read_string(int *fd);
 
 
-void write_string(const char* string , FILE*file){
+void write_string(const char* string , int *fd) {//f[1] writing str to f[0] (child)
     struct tm *ptr;
     time_t lt;
     lt = time(NULL);
     ptr = localtime(&lt);
+    close(fd[0]);
+    write(fd[1],string,15);
+    close(fd[1]);
     printf("[%x]: ",getpid());
-    printf("[%d %d %d]:[put str into the file]\n",ptr->tm_hour, ptr->tm_min, ptr->tm_sec);
-    fprintf(file,"%s", string);
-    fflush(file);
+    printf("[%d:%d:%d] *writing str to child*\n",ptr->tm_hour, ptr->tm_min, ptr->tm_sec);
+
 }
-void read_string(FILE* file){
-        
-        struct tm *ptr;
-        time_t lt;
-        lt = time(NULL);
-        ptr = localtime(&lt);
+char* read_string(int *fd){//f[0] (child) reading str from f[1]
+    char *str = (char*)malloc(16);
+    struct tm *ptr;
+    time_t lt;
+    lt = time(NULL);
+    ptr = localtime(&lt);
     
+    close(fd[1]);
+    read(fd[0],str,16);
+    close(fd[0]);
     printf("[%x]: ",getpid());
-    printf("[%d %d %d]: message: ",ptr->tm_hour, ptr->tm_min, ptr->tm_sec);
-    char buf[256];
-    while(!feof(file) && !ferror(file) && fgets(buf,sizeof(buf),file) != NULL)
-        fputs(buf,stdout);
+    printf("[%d:%d:%d]: message:",ptr->tm_hour, ptr->tm_min, ptr->tm_sec);
+
+return str;
 }
 
 int main(){
@@ -43,24 +47,15 @@ int main(){
 
     pipe(proc);
     pid = fork();
+
     if(pid == child_proc){
-        sleep(5);
-        FILE* file;
         
-        file = fopen("pipe.txt","r");
-        
-        read_string(file);
-        
-        close(proc[0]);
-        
+        write_string("second laba a)",proc);
     }
     else {
-    FILE* file;
-    file = fopen("pipe.txt", "w");
-
-    write_string("second laba a)", file);
-    
-    close(proc[1]);
+        sleep(5);
+        char* str = read_string(proc);
+        printf(" %s\n",str);
     int end_of_c_p = waitpid(pid,child_proc,0);
  }
 
