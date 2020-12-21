@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include<stdio.h>
 #include<unistd.h>
 #include<stdlib.h>
 #include<sys/wait.h>
@@ -9,8 +9,6 @@
 #define child_proc 0
 #define buff_size 128
 
-void write_string( const char* path);
-void read_string(const char* path);
 time_t timer;
 int main() {
    
@@ -21,13 +19,12 @@ int main() {
     printf("%s", ctime(&timer));
     int inf = mkfifo("file",0777);
     if(inf == -1){
-        printf("nope");
+        printf("there is a problem with creating the fifo");
         exit(-1);
     }
     pid_t pid;
     pid = fork();
     if(pid == child_proc){//child
-    
         read_string("file");
     }
     else {//parent
