@@ -8,15 +8,12 @@
 #include<string.h>
 #define child_proc 0
 #define buff_size 128
+void write_string( const char * path);
+void read_string(const char * path);
 
 time_t timer;
 int main() {
    
-    timer = time(0);
-    printf("%s", ctime(&timer));
-    sleep(5);
-    timer = time(0);
-    printf("%s", ctime(&timer));
     int inf = mkfifo("file",0777);
     if(inf == -1){
         printf("there is a problem with creating the fifo");
