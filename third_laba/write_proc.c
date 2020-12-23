@@ -25,8 +25,7 @@ int main(int argc, char * argv[]){
     int status;
     
     char* shmat_status;
-   
-    //signal(SIGINT,out);
+
     key_t key = ftok(path,'`');
     status = (shmget(key, buff_size, IPC_CREAT| 0666));
     shmat_status = shmat(status,NULL,0);
