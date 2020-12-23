@@ -15,20 +15,22 @@
 
 time_t timer;
 
-void out(int ping);
+void out(char* buf , int smid);
 void send_data(char * buf);
 void err(int err_code);
 
 
-int main(){
+int main(int argc, char * argv[]){
     const char * path = "shm";
     int status;
+    
     char* shmat_status;
-    signal(SIGINT,out);
+   
+    //signal(SIGINT,out);
     key_t key = ftok(path,'`');
     status = (shmget(key, buff_size, IPC_CREAT| 0666));
     shmat_status = shmat(status,NULL,0);
-    
+    argc > 1 ? (strcmp(argv[1],"-c")==0 ? out(shmat_status,status):"ok"):("ok");
     shmat_status == ((char*)-1) ? err(-3):"ok";
     status == -1 ? err(-2):"ok"; 
     (strlen(shmat_status)) != 0 ?  err(-1) : send_data(shmat_status);
@@ -36,10 +38,11 @@ return 0;
 }
 
 
-void out (int ping){
-    printf("i'm out\n");
-    struct shmid_ds *buf = 0;
-    shmctl(ping, IPC_RMID, buf);
+void out (char* buf, int shmid){
+    printf("clean shmid\n");
+    sprintf(buf,"DEAD");
+    struct shmid_ds *buff = NULL;
+    shmctl(shmid, IPC_RMID, buff);
     exit(0);
 }
 

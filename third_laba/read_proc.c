@@ -8,11 +8,12 @@
 #include<sys/ipc.h>
 #include<sys/shm.h>
 #include<sys/types.h>
+#include<string.h>
 #define child_proc 0
 #define buff_size 32
 
 time_t timer;
-void out(int ping);
+void out();
 void print_received_data(char * buff);
 void err(int err_code);
 
@@ -20,7 +21,6 @@ int main() {
     const char * path = "shm";
     int status;
     char* shmat_status;
-    signal(SIGINT,out);
 
 
     key_t key = ftok(path,'`');
@@ -41,6 +41,7 @@ int main() {
     status == -1 ? err(-2) : "ok"; 
 
     shmat_status = shmat(status,NULL,0);
+    
     shmat_status == ((char*)-1) ? err(-3) : print_received_data(shmat_status) ;
    
 
@@ -48,9 +49,8 @@ int main() {
     
 return 0;
 }
-void out (int ping){
-    printf("i'm out\n");
-
+void out (){
+    printf("im' out\n");
     exit(0);
 }
 void err(int err_code){
@@ -74,6 +74,7 @@ void print_received_data(char *buff){
 
     
     for(;;){
+        strcmp(buff,"DEAD") == 0 ?  out() : "ok";
         timer = time(NULL);
         printf("[%x] %s\n %s\n", getpid(), ctime(&timer),buff);
         sleep(5);
