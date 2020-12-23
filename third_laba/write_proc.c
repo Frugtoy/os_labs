@@ -27,6 +27,7 @@ int main(int argc, char * argv[]){
     char* shmat_status;
 
     key_t key = ftok(path,'`');
+    key == -1 ? err(-4):"ok";
     status = (shmget(key, buff_size, IPC_CREAT| 0666));
     shmat_status = shmat(status,NULL,0);
     argc > 1 ? (strcmp(argv[1],"-c")==0 ? out(shmat_status,status):"ok"):("ok");
@@ -45,8 +46,8 @@ void out (char* buf, int shmid){
     exit(0);
 }
 
-void err(int err_code) {
-    switch(err_code) {
+void err(int err_code){
+    switch(err_code){
         case -1:
             printf("process is already sending itself");
             break;
@@ -56,10 +57,12 @@ void err(int err_code) {
         case -3:
             printf("SHMAT ERROR");
             break;
+        case -4:
+            printf("ftok");
+            break;
         default:
             break;
     }
-    
     exit(err_code);
 }
 

@@ -24,6 +24,7 @@ int main() {
 
 
     key_t key = ftok(path,'`');
+    key == -1 ? err(-4):"ok";
     /*key_t ftok(char *pathname, char proj_id);
 
        Today,  proj_id is an int, but still only 8 bits are used.  Typical usage has
@@ -63,6 +64,9 @@ void err(int err_code){
             break;
         case -3:
             printf("SHMAT ERROR");
+            break;
+        case -4:
+            printf("ftok");
             break;
         default:
             break;
