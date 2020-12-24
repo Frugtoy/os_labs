@@ -22,7 +22,6 @@ int main() {
     int status;
     char* shmat_status;
 
-
     key_t key = ftok(path,0X1001001);
     key == -1 ? err(-4):"ok";
     /*key_t ftok(char *pathname, char proj_id);
