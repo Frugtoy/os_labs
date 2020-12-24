@@ -35,7 +35,8 @@ int main(int argc, char * argv[]){
 
    key_t key = ftok(path,0X1001001);
    key_t skey = ftok("Makefile",0X1001001);
-   (skey || key) == -1 ? err(-4):"ok";
+   skey  == -1 ? err(-4): ( key == -1 ? err(-4) : "ok");
+   
    
 
     status = shmget( key, buff_size, ( IPC_CREAT | 0666 ) );
