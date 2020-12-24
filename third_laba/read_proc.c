@@ -18,12 +18,12 @@ void print_received_data(char * buff);
 void err(int err_code);
 
 int main() {
-    const char * path = "shm";
+    const char * path = "write_proc.c";
     int status;
     char* shmat_status;
 
 
-    key_t key = ftok(path,'`');
+    key_t key = ftok(path,0X1001001);
     key == -1 ? err(-4):"ok";
     /*key_t ftok(char *pathname, char proj_id);
 

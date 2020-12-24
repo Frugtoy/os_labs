@@ -21,12 +21,12 @@ void err(int err_code);
 
 
 int main(int argc, char * argv[]){
-    const char * path = "shm";
+    const char * path = "write_proc.c";
     int status;
     
     char* shmat_status;
 
-    key_t key = ftok(path,'`');
+    key_t key = ftok(path,0X1001001);
     key == -1 ? err(-4):"ok";
     status = (shmget(key, buff_size, IPC_CREAT| 0666));
     shmat_status = shmat(status,NULL,0);
