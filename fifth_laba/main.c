@@ -20,14 +20,13 @@ int main(){
     pthread_mutex_init(&thread,NULL);
 
     for(int i = 0; i < r_count; i++){
-         pthread_create(&pthread_arr[i],NULL,  read_thread_arr,NULL);//
+         pthread_create(&pthread_arr[i],NULL,  read_thread_arr,NULL);
     }
     pthread_create(&pthread_arr[WRITER_IDX],NULL, write_thread_arr,NULL);
 
     for( int i = 0; i < r_count + w_count; i ++ ){
         pthread_join(pthread_arr[i], NULL);
     }
-    ///готово
     pthread_mutex_destroy(&thread);
     return 0;
 }
@@ -49,7 +48,7 @@ void * write_thread_arr(void * arg){
 
 
 int get_random_val(int dist){
-   int res =  (rand() +getpid()) % dist;
+   int res =  (rand() +getpid()) % dist; 
     return res;
 }
 
