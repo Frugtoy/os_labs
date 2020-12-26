@@ -56,7 +56,7 @@ void *  read_thread_arr(void* arg){
     
     for(;;){
         pthread_mutex_lock(&thread);
-        printf("[%lx] [",pthread_self());
+        printf("[%lu] [",pthread_self());
         for(int i =0; i<r_count; i++){
             printf(" %d ",arr[i]);
         }
