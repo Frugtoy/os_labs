@@ -12,7 +12,6 @@ int get_random_val(int dist);
 int  counter = 0;
 pthread_rwlock_t rwlocker;
 int arr[r_count];
-
 int main(){
 
     printf("[tid][arr]\n");   
@@ -36,7 +35,7 @@ int main(){
 void * write_thread_arr(void * arg){
     for(;;){
         sleep(get_random_val(2));
-        pthread_rwlock_lock(&rwlocker);
+        pthread_rwlock_wrlock(&rwlocker);
         counter++;
         printf("counter has been increased to [%d]\n",counter);
         printf("[tid][arr]\n");
@@ -57,13 +56,15 @@ int get_random_val(int dist){
 void *  read_thread_arr(void* arg){
     
     for(;;){
-        pthread_rwlock_lock(&rwlocker);
+        pthread_rwlock_rdlock(&rwlocker);
         printf("[%lu] [",pthread_self());
         for(int i =0; i<r_count; i++){
             printf(" %d ",arr[i]);
         }
         printf("]\n");
+        fflush(stdout);
+      
         pthread_rwlock_unlock(&rwlocker);
-        sleep(get_random_val(3));
+          sleep(get_random_val(3));
     }
 }
