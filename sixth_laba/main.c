@@ -57,7 +57,7 @@ void *  read_thread_arr(void* arg){
     
     for(;;){
         pthread_rwlock_rdlock(&rwlocker);
-        printf("[%lu] [",pthread_self());
+       printf("[%02x] [",(unsigned)pthread_self());
         for(int i =0; i<r_count; i++){
             printf(" %d ",arr[i]);
         }
